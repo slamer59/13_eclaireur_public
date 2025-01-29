@@ -26,4 +26,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - [Next.js](https://nextjs.org) is used app rendering and links.
 - [React](http://facebook.github.io/react) is used for interactive UI.
-
+- [Tailwind CSS](https://tailwindcss.com/) is used for styling
+- [Prettier](https://prettier.io/) is used for formatting
+- [shadcn](https://ui.shadcn.com/) is used for ui components

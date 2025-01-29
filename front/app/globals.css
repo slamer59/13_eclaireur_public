@@ -2,10 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer components {
   .global-margin {
-    @apply container mx-auto max-w-[1200px] overflow-x-hidden sm:overflow-x-visible;
+    @apply container mx-auto max-w-[1200px] overflow-x-hidden px-4 sm:overflow-x-visible sm:px-8 md:px-12 lg:px-0;
   }
 }
-
