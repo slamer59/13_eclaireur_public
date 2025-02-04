@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # From https://github.com/github/gitignore/blob/main/Python.gitignore
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -163,4 +164,14 @@ cython_debug/
 .ruff_cache
 
 
-# node
+# back
+back/data/communities/processed_data/
+back/data/datasets/subventions/outputs/
+back/data/datasets/marches_publics/outputs/
+back/data/logs/
+
+loc_env/
+
+# Ignore all .pyc & .ipynb files
+*.pyc
+*.ipynb
