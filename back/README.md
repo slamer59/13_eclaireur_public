@@ -94,8 +94,12 @@ Mettre à jour les dépendances:
     tox -vv
 
 ### Lancer le script
+``` bash
+poetry run python back/main.py
 
-    poetry run python back/main.py back/config.yaml
+# Pour charger un config.yaml d'une autre source, utiliser --filename :
+poetry run python back/main.py --filename <path_to_config.yaml>
+```
 
 
 ## License
