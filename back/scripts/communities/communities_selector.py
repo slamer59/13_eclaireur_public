@@ -94,7 +94,7 @@ class CommunitiesSelector():
         self.selected_data = selected_data
 
         # Save all data & selected data to CSV
-        data_folder = Path(get_project_base_path()) / "data" / "communities" / "processed_data"
+        data_folder = Path(get_project_base_path()) / "back" / "data" / "communities" / "processed_data"
         all_data_filename = "all_communities_data.csv"
         selected_data_filename = "selected_communities_data.csv"
         save_csv(all_data, data_folder, all_data_filename, sep=";")

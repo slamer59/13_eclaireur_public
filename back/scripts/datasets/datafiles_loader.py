@@ -110,7 +110,7 @@ class DatafilesLoader():
         schema_mapping = dict(zip(schema_lower, self.schema["name"].values, strict=False))
 
         # Load the schema dictionary to rename the columns
-        schema_dict_file = Path(get_project_base_path())  / "data" / "datasets" / topic / "inputs" / topic_config["schema_dict_file"]
+        schema_dict_file = Path(get_project_base_path())  / "back" / "data" / "datasets" / topic / "inputs" / topic_config["schema_dict_file"]
         schema_dict = pd.read_csv(schema_dict_file, sep=";").set_index('original_name')['official_name'].to_dict()
 
         # Initialize the output dataframe for columns not in the schema
