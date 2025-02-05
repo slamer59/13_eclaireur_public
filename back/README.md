@@ -1,6 +1,6 @@
 # Pipeline d'intégration des données
 
-### Structure du projet
+## Structure du projet
 
 - `data/`: dossier pour stocker les données du projet, organisées en sous-dossiers
     - `communities/`: informations sur les collectivités
@@ -16,11 +16,10 @@
     - `utils/`: scripts utilitaires et helpers
 - `main.py`: script principal pour exécuter les scripts du projet
 - `config.yaml`: fichier de configuration pour faire tourner `main.py`.
-- `requirements.txt`: fichier contenant les dépendances Python
  - `.gitignore`: fichier contenant les références ignorées par git
 - `README.md`: ce fichier
 
-# Contribuer
+## Contribuer
 
 ### Cloner ce repertoire
 
@@ -99,9 +98,9 @@ Mettre à jour les dépendances:
     poetry run python back/main.py back/config.yaml
 
 
-### License
+## License
 
-#### Code
+### Code
 
 The code in this repository is licensed under the MIT License:
 
@@ -115,6 +114,6 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-#### Data and Analyses
+### Data and Analyses
 
 Unless otherwise stated, the data and analyses in this repository are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License. For more information, please visit [Creative Commons License](https://creativecommons.org/licenses/by/4.0/).
