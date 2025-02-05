@@ -1,16 +1,4 @@
-# Projet "République Numérique" - Analyse de la transparence des collectivités locales
-
-Ce projet vise à analyser la transparence des collectivités locales concernées par la loi "République Numérique" en cartographiant de manière ponctuelle la publication de certaines données jugées critiques en matière d'intérêt économique ou de probité politique (publication ou non, qualité des publications).
-
-CE POC EST MAINTENANT ACHEVÉ : PLACE Á ÉCLAIREUR PUBLIC ET DATA FOR GOOD !
-
-## Objectif
-
-QUE VIVE ET PROSPÈRE ÉCLAIREUR PUBLIC !!!
-
-## Plan d'attaque & Avancement
-
-Contacter Data for Good
+# Pipeline d'intégration des données
 
 ## Structure du projet
 
@@ -24,40 +12,90 @@ Contacter Data for Good
     - `datasets/`: scripts pour le scrapping et le filtrage des données
     - `data_processing/`: scripts pour le traitement des données
     - `analysis/`: scripts pour l'analyse des données (vide à date)
-    - `loaders/`: scripts de téléchargement de fichiers 
+    - `loaders/`: scripts de téléchargement de fichiers
     - `utils/`: scripts utilitaires et helpers
 - `main.py`: script principal pour exécuter les scripts du projet
 - `config.yaml`: fichier de configuration pour faire tourner `main.py`.
-- `requirements.txt`: fichier contenant les dépendances Python
  - `.gitignore`: fichier contenant les références ignorées par git
 - `README.md`: ce fichier
 
+## Contribuer
 
-## Comment utiliser à date
+### Cloner ce repertoire
 
-1. Clonez ce dépôt : 
 ```
 git clone https://github.com/m4xim1nus/LocalOuvert.git
 cd LocalOuvert
 ```
 
-2. (Recommandé) Créez un environnement virtuel pour éviter les conflits de dépendances :
-```
-python -m venv venv
-# Activation de l’environnement virtuel
-source venv/bin/activate  # Sur macOS/Linux
-venv\Scripts\activate     # Sur Windows
-```
+### Installer Poetry
 
-3. Installez les dépendances à l'aide de 
-```
-pip install -r requirements.txt
-```
+> **ATTENTION:** En raison d'une incompatiblité entre la version actuelle d'une librairie (pre-commit-hooks-safety) et poetry 2.0.0, il est nécéssaire de forcer la version de poetry à 1.8.5.
 
-4. Pour exécuter les scripts pour télécharger et traiter les données, executez 
-```
-python main.py config.yaml 
-```
+Plusieurs [méthodes d'installation](https://python-poetry.org/docs/#installation) sont décrites dans la documentation de poetry dont:
+
+- avec pipx
+- avec l'installateur officiel
+
+Chaque méthode a ses avantages et inconvénients. Par exemple, la méthode pipx nécessite d'installer pipx au préable, l'installateur officiel utilise curl pour télécharger un script qui doit ensuite être exécuté et comporte des instructions spécifiques pour la completion des commandes poetry selon le shell utilisé (bash, zsh, etc...).
+
+L'avantage de pipx est que l'installation de pipx est documentée pour linux, windows et macos. D'autre part, les outils installées avec pipx bénéficient d'un environment d'exécution isolé, ce qui est permet de fiabiliser leur fonctionnement. Finalement, l'installation de poetry, voire d'autres outils est relativement simple avec pipx.
+
+Cependant, libre à toi d'utiliser la méthode qui te convient le mieux ! Quelque soit la méthode choisie, il est important de ne pas installer poetry dans l'environnement virtuel qui sera créé un peu plus tard dans ce README pour les dépendances de la base de code de ce repo git.
+
+#### Installation de Poetry avec pipx
+
+Suivre les instructions pour [installer pipx](https://pipx.pypa.io/stable/#install-pipx) selon ta plateforme (linux, windows, etc...)
+
+Par exemple pour Ubuntu 23.04+:
+
+    sudo apt update
+    sudo apt install pipx
+    pipx ensurepath
+
+Pour macos:
+
+    brew install pipx
+    pipx ensurepath
+
+[Installer Poetry avec pipx](https://python-poetry.org/docs/#installing-with-pipx):
+
+    pipx install poetry==1.8.5
+
+#### Installation de Poetry avec l'installateur officiel
+
+L'installation avec l'installateur officiel nécessitant quelques étapes supplémentaires,
+se référer à la [documentation officielle](https://python-poetry.org/docs/#installing-with-the-official-installer).
+
+### Utiliser un venv python
+
+    python3 -m venv .venv
+
+    source .venv/bin/activate
+
+### Utiliser Poetry
+
+Installer les dépendances:
+
+    poetry install
+
+Mettre à jour les dépendances:
+
+    poetry update
+
+### Lancer les precommit-hook localement
+
+[Installer les precommit](https://pre-commit.com/)
+
+    pre-commit run --all-files
+
+### Utiliser Tox pour tester votre code
+
+    tox -vv
+
+### Lancer le script
+
+    poetry run python back/main.py back/config.yaml
 
 
 ## License

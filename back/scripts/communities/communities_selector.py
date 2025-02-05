@@ -11,7 +11,6 @@ from scripts.communities.loaders.sirene import SireneLoader
 from scripts.utils.files_operation import save_csv
 from scripts.utils.config import get_project_base_path
 from scripts.utils.geolocator import GeoLocator
-from scripts.utils.psql_connector import PSQLConnector
 
 class CommunitiesSelector():
     """
@@ -85,7 +84,7 @@ class CommunitiesSelector():
                         (self.all_data['type'] != 'COM') |
                         ((self.all_data['type'] == 'COM') &
                         (self.all_data['population'] >= 3500) &
-                        (self.all_data['EffectifsSup50'] == True))
+                        self.all_data['EffectifsSup50'])
                         ]
 
         # Add geocoordinates to selected data
@@ -95,7 +94,7 @@ class CommunitiesSelector():
         self.selected_data = selected_data
 
         # Save all data & selected data to CSV
-        data_folder = Path(get_project_base_path()) / "data" / "communities" / "processed_data"
+        data_folder = Path(get_project_base_path()) / "back" / "data" / "communities" / "processed_data"
         all_data_filename = "all_communities_data.csv"
         selected_data_filename = "selected_communities_data.csv"
         save_csv(all_data, data_folder, all_data_filename, sep=";")

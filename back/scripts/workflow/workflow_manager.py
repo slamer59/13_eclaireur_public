@@ -86,7 +86,7 @@ class WorkflowManager:
 
     def save_output_to_csv(self, topic, normalized_data, topic_files_in_scope=None, datacolumns_out=None, datafiles_out=None, modifications_data=None):
         # Define the output folder path
-        output_folder = Path(get_project_base_path()) / "data" / "datasets" / topic / "outputs"
+        output_folder = Path(get_project_base_path()) / "back" / "data" / "datasets" / topic / "outputs"
 
         # Loop through the dataframes (if not None) to save them to the output folder
         if normalized_data is not None:

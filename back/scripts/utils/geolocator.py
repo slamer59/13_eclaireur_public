@@ -2,14 +2,9 @@ import logging
 import requests
 from pathlib import Path
 import pandas as pd
-import numpy as np
-from io import StringIO
-import os
-import json
 
 from scripts.utils.config import get_project_base_path
 from scripts.loaders.csv_loader import CSVLoader
-from scripts.loaders.excel_loader import ExcelLoader
 
 
 class GeoLocator:
@@ -22,7 +17,7 @@ class GeoLocator:
     def __init__(self, geo_config):
         self.logger = logging.getLogger(__name__)
         # Load the data only once during the instance initialization
-        data_folder = Path(get_project_base_path()) / "data" / "communities" / "scrapped_data" / "geoloc"
+        data_folder = Path(get_project_base_path()) / "back" / "data" / "communities" / "scrapped_data" / "geoloc"
         reg_dep_geoloc_filename = "dep_reg_centers.csv" # TODO: To add to config
         reg_dep_geoloc_df = pd.read_csv(data_folder / reg_dep_geoloc_filename, sep=';') # TODO: Use CSVLoader
         if reg_dep_geoloc_df.empty:

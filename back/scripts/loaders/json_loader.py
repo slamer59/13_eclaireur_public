@@ -1,5 +1,4 @@
 import pandas as pd
-import logging
 
 from .base_loader import BaseLoader
 

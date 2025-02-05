@@ -3,7 +3,6 @@ import requests
 import pandas as pd
 import logging
 
-from scripts.communities.communities_selector import CommunitiesSelector
 from scripts.loaders.csv_loader import CSVLoader
 
 
@@ -87,7 +86,8 @@ class DataGouvSearcher():
             response = requests.get(url, params=params)
             try:
                 response.raise_for_status()
-            except:
+            except Exception as e:
+                self.logger.error(f"Error while downloading file from {url} : {e}")
                 break
             try:
                 data = response.json()

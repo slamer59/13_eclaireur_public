@@ -1,11 +1,8 @@
-import json
 import re
-import requests
 import pandas as pd
 import logging
 import unidecode
 
-from scripts.communities.communities_selector import CommunitiesSelector
 from scripts.utils.json_operation import flatten_json_schema, flatten_data
 from scripts.utils.dataframe_operation import cast_data
 from scripts.loaders.base_loader import BaseLoader
