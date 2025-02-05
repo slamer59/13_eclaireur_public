@@ -1,8 +1,33 @@
 # Pipeline d'intégration des données
 
-## Structure du projet
+L'intégralité du contenu du dossier ./back/ concerne la partie backend du projet.
+
+
+
+## Table des matières
+
+1. [Structure](#structure-du-back)
+2. [Contribuer](#contribuer)
+    - 2.1 [Accès Repo](#acces-repo)
+    - 2.2 [Environnement de développement](#environnement-de-développement)
+        - 2.2.1 [Installer Poetry avec pipx](#installation-de-poetry-avec-pipx)
+        - 2.2.2 [Installer Poetry avec le dépôt officiel](#installation-de-poetry-avec-le-depot-officiel)
+        - 2.2.3 [Utiliser Poetry](#utiliser-poetry)
+        - 2.2.4 [Utiliser un venv python](#utiliser-un-venv-python)
+3. [Lancer les precommit hook localement](#lancer-les-precommit-hook-localement)
+4. [Utiliser Tox pour tester votre code](#utiliser-tox-pour-test-votre-code)
+5. [License](#license)
+    - 5.1 [Code](#code)
+    - 5.2 [Data and Analyses](#data-and-analyses)
+
+
+
+
+
+## Structure du back
 
 - `data/`: dossier pour stocker les données du projet, organisées en sous-dossiers
+
     - `communities/`: informations sur les collectivités
     - `datasets/`: données récupérées et filtrées
     - `processed_data/`: données traitées et prêtes pour l'analyse
@@ -19,18 +44,32 @@
  - `.gitignore`: fichier contenant les références ignorées par git
 - `README.md`: ce fichier
 
+
+
 ## Contribuer
 
-### Cloner ce repertoire
+- Rappel: La contribution du projet se fait par l'intermédiaire de Data 4 Good. Il est nécessaire de se rapprocher du Slack dédié, canal 13_eclair_public, pour toutes questions.
+- Pour les nouveaux arrivants: Pensez à vous présenter dans les canaux dédiés, participez aux points hebdo qui on lieu le jeudi.
 
+
+### Acces Repo
+
+
+``` bash
+# Copier le repo en local
+git clone https://github.com/dataforgoodfr/13_eclaireur_public.git
+
+# Naviguer sur la partie back du projet
+cd ./13_eclaireur_public/back
 ```
-git clone https://github.com/m4xim1nus/LocalOuvert.git
-cd LocalOuvert
-```
 
-### Installer Poetry
 
-> **ATTENTION:** En raison d'une incompatiblité entre la version actuelle d'une librairie (pre-commit-hooks-safety) et poetry 2.0.0, il est nécéssaire de forcer la version de poetry à 1.8.5.
+### Environnement de développement
+
+
+<span style="color: darkred;"> **ATTENTION:** En raison d'une incompatiblité entre la version actuelle d'une librairie (pre-commit-hooks-safety) et poetry 2.0.0, il est nécéssaire de forcer la version de poetry à 1.8.5.</span>
+
+
 
 Plusieurs [méthodes d'installation](https://python-poetry.org/docs/#installation) sont décrites dans la documentation de poetry dont:
 
@@ -62,40 +101,56 @@ Pour macos:
 
     pipx install poetry==1.8.5
 
-#### Installation de Poetry avec l'installateur officiel
+
+
+#### Installation de Poetry avec le depot officiel
 
 L'installation avec l'installateur officiel nécessitant quelques étapes supplémentaires,
 se référer à la [documentation officielle](https://python-poetry.org/docs/#installing-with-the-official-installer).
 
-### Utiliser un venv python
 
-    python3 -m venv .venv
+#### Utiliser Poetry
 
-    source .venv/bin/activate
+``` bash
+# Installer les dépendances
+poetry install
+# Mettre à jour les dépendances
+poetry update
+```
 
-### Utiliser Poetry
 
-Installer les dépendances:
+#### Utiliser un venv python
 
-    poetry install
+<span style="color: darkred;">Si vous préférez utiliser un venv python, suivez les instructions suivantes:</span>
 
-Mettre à jour les dépendances:
+``` bash
+python3 -m venv .venv
+source .venv/bin/activate
+# Il vous sera necessaire de vous assurer d'installer les dépendances requises, poetry ne générant pas de requirements.txt par défaut.
+# Actuellement, aucun support n'est proposé pour les venv python.
+```
 
-    poetry update
 
-### Lancer les precommit-hook localement
+
+## Lancer les precommit hook localement
 
 [Installer les precommit](https://pre-commit.com/)
+``` bash
+pre-commit run --all-files
+```
 
-    pre-commit run --all-files
 
-### Utiliser Tox pour tester votre code
+## Utiliser Tox pour tester votre code
+``` bash
+tox -vv
+```
+## Lancer le script
+``` bash
+poetry run python back/main.py back/config.yaml
+```
 
-    tox -vv
 
-### Lancer le script
 
-    poetry run python back/main.py back/config.yaml
 
 
 ## License
