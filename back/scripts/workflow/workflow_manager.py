@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 from pathlib import Path
 import pandas as pd
@@ -22,6 +23,10 @@ class WorkflowManager:
         self.logger.info("Workflow started.")
         # Create blank dict to store dataframes that will be saved to the DB
         df_to_save_to_db = {}
+
+        # If communities files are already generated, check the age
+        self.check_file_age(self.config["file_age_to_check"])
+
 
         # Build communities scope, and add selected communities to df_to_save
         communities_selector = self.initialize_communities_scope(df_to_save_to_db)
@@ -48,6 +53,26 @@ class WorkflowManager:
             self.save_data_to_db(df_to_save_to_db)
 
         self.logger.info("Workflow completed.")
+
+
+
+    def check_file_age(self, config):
+        """
+        Check file age and log a warning if file is too aged according to config.yaml file, section: file_age_to_check
+        """
+        max_age_in_days = config["age"]
+
+        for filename, filepath in config["files"].items():
+            if Path(filepath).exists():
+                filepath = Path(filepath)
+                last_modified = datetime.fromtimestamp(filepath.stat().st_mtime)
+                age_in_days = (datetime.now() - last_modified).days
+                self.logger.info(f"Found: {filename} at {filepath}, last update: {last_modified}, age: {age_in_days} days")
+
+                if age_in_days > max_age_in_days:
+                    self.logger.warning(f"{filename} file is older than {max_age_in_days} days. It is advised to refresh your data.")
+
+
 
     def initialize_communities_scope(self, df_to_save_to_db):
         self.logger.info("Initializing communities scope.")
