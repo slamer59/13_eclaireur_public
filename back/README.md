@@ -16,7 +16,8 @@ L'intégralité du contenu du dossier ./back/ concerne la partie backend du proj
         - 2.2.4 [Utiliser un venv python](#utiliser-un-venv-python)
 3. [Lancer les precommit hook localement](#lancer-les-precommit-hook-localement)
 4. [Utiliser Tox pour tester votre code](#utiliser-tox-pour-test-votre-code)
-5. [License](#license)
+5. [Lancer le script](#lancer-le-script)
+6. [License](#license)
     - 5.1 [Code](#code)
     - 5.2 [Data and Analyses](#data-and-analyses)
 
@@ -144,13 +145,15 @@ pre-commit run --all-files
 ``` bash
 tox -vv
 ```
+
+
 ## Lancer le script
 ``` bash
-poetry run python back/main.py back/config.yaml
+poetry run python back/main.py
+
+# Pour charger un config.yaml d'une autre source, utiliser --filename :
+poetry run python back/main.py --filename <path_to_config.yaml>
 ```
-
-
-
 
 
 ## License
