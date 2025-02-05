@@ -83,7 +83,7 @@ class DatafilesLoader():
         len_out = len(self.datafiles_out)
         data = []
 
-        for i, file_info in readable_files.iterrows():
+        for _i, file_info in readable_files.iterrows():
             df = self._load_file_data(file_info, datafile_loader_config)
             if df is not None:
                 data.append(df)

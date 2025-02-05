@@ -86,7 +86,8 @@ class DataGouvSearcher():
             response = requests.get(url, params=params)
             try:
                 response.raise_for_status()
-            except:
+            except Exception as e:
+                self.logger.error(f"Error while downloading file from {url} : {e}")
                 break
             try:
                 data = response.json()

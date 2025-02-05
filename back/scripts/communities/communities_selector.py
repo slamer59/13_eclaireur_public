@@ -84,7 +84,7 @@ class CommunitiesSelector():
                         (self.all_data['type'] != 'COM') |
                         ((self.all_data['type'] == 'COM') &
                         (self.all_data['population'] >= 3500) &
-                        (self.all_data['EffectifsSup50'] == True))
+                        self.all_data['EffectifsSup50'])
                         ]
 
         # Add geocoordinates to selected data

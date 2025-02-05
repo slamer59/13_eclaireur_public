@@ -43,7 +43,8 @@ class CSVLoader(BaseLoader):
         return df
 
     @staticmethod
-    def detect_delimiter(text, num_lines=5, delimiters=[',', ';', '\t', '|']):
+    def detect_delimiter(text, num_lines=5):
+        delimiters=[',', ';', '\t', '|']
         # This function detects the delimiter used in a CSV file
         # It reads the first num_lines of the file and counts the occurrences of each delimiter
         counts = {delimiter: 0 for delimiter in delimiters}
