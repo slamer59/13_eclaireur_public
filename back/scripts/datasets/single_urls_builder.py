@@ -2,7 +2,6 @@ import logging
 from pathlib import Path
 import pandas as pd
 
-from scripts.communities.communities_selector import CommunitiesSelector
 from scripts.utils.config import get_project_base_path
 
 class SingleUrlsBuilder():

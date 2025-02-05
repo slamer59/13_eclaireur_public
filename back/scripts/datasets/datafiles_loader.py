@@ -1,4 +1,3 @@
-import collections
 import logging
 import pandas as pd
 from pathlib import Path
@@ -108,7 +107,7 @@ class DatafilesLoader():
         schema_lower = [col.lower() for col in self.schema["name"].values]
 
         # Create a mapping dictionary between lower case schema names and original schema names
-        schema_mapping = dict(zip(schema_lower, self.schema["name"].values))
+        schema_mapping = dict(zip(schema_lower, self.schema["name"].values, strict=False))
 
         # Load the schema dictionary to rename the columns
         schema_dict_file = Path(get_project_base_path())  / "data" / "datasets" / topic / "inputs" / topic_config["schema_dict_file"]
@@ -128,7 +127,7 @@ class DatafilesLoader():
             # Check if the dataframe has at least 1 column in common with the schema
             if len(set(columns_lower).intersection(set(schema_lower))) > 0:
                 common_columns = [] # Initialize the list of common columns with the schema
-                for col, col_lower in zip(df.columns, columns_lower):
+                for col, col_lower in zip(df.columns, columns_lower, strict=False):
                     if col_lower in schema_lower or col in file_info_columns:
                         common_columns.append(col)
                     else:

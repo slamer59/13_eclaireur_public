@@ -1,6 +1,5 @@
 import pandas as pd
 from io import BytesIO
-import logging
 
 from .base_loader import BaseLoader
 from scripts.utils.dataframe_operation import detect_skiprows, detect_skipcolumns

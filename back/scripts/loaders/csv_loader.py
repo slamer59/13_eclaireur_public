@@ -1,7 +1,5 @@
 import csv
 import pandas as pd
-import requests
-import logging
 from io import StringIO
 
 from .base_loader import BaseLoader

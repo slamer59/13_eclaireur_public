@@ -11,7 +11,6 @@ from scripts.communities.loaders.sirene import SireneLoader
 from scripts.utils.files_operation import save_csv
 from scripts.utils.config import get_project_base_path
 from scripts.utils.geolocator import GeoLocator
-from scripts.utils.psql_connector import PSQLConnector
 
 class CommunitiesSelector():
     """

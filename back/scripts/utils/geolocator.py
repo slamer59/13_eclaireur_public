@@ -2,14 +2,9 @@ import logging
 import requests
 from pathlib import Path
 import pandas as pd
-import numpy as np
-from io import StringIO
-import os
-import json
 
 from scripts.utils.config import get_project_base_path
 from scripts.loaders.csv_loader import CSVLoader
-from scripts.loaders.excel_loader import ExcelLoader
 
 
 class GeoLocator:
