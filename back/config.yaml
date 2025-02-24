@@ -2,6 +2,11 @@ workflow:
   save_to_db: True
 
 communities:
+  processed_data:
+    path: back/data/communities/processed_data
+    all_communities_file: all_communities_data.parquet
+    selected_communities_file: selected_communities_data.parquet
+    
   ofgl:
     url:
       regions: https://data.ofgl.fr/explore/dataset/ofgl-base-regions-consolidee/download/?format=csv&disjunctive.reg_name=true&disjunctive.agregat=true&refine.agregat=D%C3%A9penses+totales&refine.exer=2020&timezone=Europe/Berlin&lang=fr&use_labels_for_header=true&csv_separator=%3B
@@ -32,16 +37,18 @@ communities:
       filename: odf_data.csv
 
   sirene:
-    path: back/data/communities/
-    filename: scrapped_data/sirene/download_20230413.csv
     columns:
       - "siren"
       - "trancheEffectifsUniteLegale"
+    scrapped_data_file: back/data/communities/scrapped_data/sirene/download_20230413.csv
 
   geolocator:
     epci_coords_scrapped_data_file: back/data/communities/scrapped_data/geoloc/epci_geolocs.csv
-    processed_data_folder: back/data/communities/processed_data/
+    reg_dep_coords_scrapped_data_file: back/data/communities/scrapped_data/geoloc/dep_reg_centers.csv
     geolocator_api_url: https://api-adresse.data.gouv.fr/search/csv/
+    temp_folder:
+      path: back/data/communities/processed_data
+      filename: cities_to_geolocate.csv
 
 datagouv:
   datasets:
@@ -57,6 +64,13 @@ datagouv:
   datafiles:
     url: "file:./back/data/test/datagouv-datafiles-10000.csv"
     # url: https://www.data.gouv.fr/fr/datasets/r/4babf5f2-6a9c-45b5-9144-ca5eae6a7a6d
+  paths:
+    root: back/data/datagouv_search
+    organization_datasets: organization_datasets
+  files:
+    catalog: datagouv_catalog.parquet
+    catalog_metadata: catalog_metadata.parquet
+    datasets: datagouv_datasets.parquet
 
 search:
   subventions:
@@ -81,8 +95,8 @@ search:
         - "montant"
     schema:
       url: "https://schema.data.gouv.fr/schemas/scdl/subventions/2.1.0/schema.json"
-    single_urls_file: single_urls.csv
-    schema_dict_file: dataset_dict.csv
+    single_urls_file: back/data/datasets/subventions/inputs/single_urls.csv
+    schema_dict_file: back/data/datasets/subventions/inputs/dataset_dict.csv
   marches_publics:
     source: "single"
     unified_dataset:
@@ -111,6 +125,8 @@ file_age_to_check:
     sirene_base: back/data/communities/scrapped_data/sirene/download_20230413.csv
   age: 365
 
+outputs_csv:
+  path: 'back/data/datasets/%(topic)s/outputs'
 
 logging:
   version: 1
