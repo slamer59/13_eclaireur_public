@@ -1,17 +1,8 @@
 import { NextResponse } from 'next/server';
 
-import { Pool } from 'pg';
+import db from '@/utils/db';
 
 import { CommunityType } from './types';
-
-// Initialisation du pool PostgreSQL
-const pool = new Pool({
-  user: process.env.POSTGRESQL_ADDON_USER,
-  host: process.env.POSTGRESQL_ADDON_HOST,
-  database: process.env.POSTGRESQL_ADDON_DB,
-  password: process.env.POSTGRESQL_ADDON_PASSWORD,
-  port: parseInt(process.env.POSTGRESQL_ADDON_PORT || '5432', 10),
-});
 
 type CommunitiesParamsOptions = {
   type: CommunityType | undefined;
@@ -30,7 +21,7 @@ function mapCommunityType(type: string | null) {
 
 async function getDataFromPool(options: CommunitiesParamsOptions) {
   const { type, limit } = options;
-  const client = await pool.connect();
+  const client = await db.connect();
 
   let query = 'SELECT * FROM selected_communities';
   const values: unknown[] = [];
@@ -56,8 +47,8 @@ export async function GET(request: Request) {
     const limit = Number(searchParams.get('limit')) ?? undefined;
 
     // Vérification des valeurs
-    if (limit < 1 || limit > 1000) {
-      return NextResponse.json({ error: 'Limit must be between 1 and 1000' }, { status: 400 });
+    if (limit < 1 || limit > 5000) {
+      return NextResponse.json({ error: 'Limit must be between 1 and 5000' }, { status: 400 });
     }
 
     const data = await getDataFromPool({ type, limit });
