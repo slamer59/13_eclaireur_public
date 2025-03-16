@@ -6,13 +6,14 @@ import pandas as pd
 
 from back.scripts.communities.communities_selector import CommunitiesSelector
 from back.scripts.datasets.communities_financial_accounts import FinancialAccounts
-from back.scripts.datasets.datafile_loader import DatafileLoader
+from back.scripts.datasets.datagouv_catalog import DataGouvCatalog
 from back.scripts.datasets.datagouv_searcher import (
     DataGouvSearcher,
     remove_same_dataset_formats,
 )
 from back.scripts.datasets.declaration_interet import DeclaInteretWorkflow
 from back.scripts.datasets.elected_officials import ElectedOfficialsWorkflow
+from back.scripts.datasets.marches import MarchesPublicsWorkflow
 from back.scripts.datasets.single_urls_builder import SingleUrlsBuilder
 from back.scripts.datasets.sirene import SireneWorkflow
 from back.scripts.datasets.topic_aggregator import TopicAggregator
@@ -47,6 +48,8 @@ class WorkflowManager:
 
     def run_workflow(self):
         self.logger.info("Workflow started.")
+        DataGouvCatalog(self.config["datagouv_catalog"]).run()
+        MarchesPublicsWorkflow.from_config(self.config["marches_publics"]).run()
         FinancialAccounts(self.config["financial_accounts"]).run()
         ElectedOfficialsWorkflow(self.config["elected_officials"]["data_folder"]).run()
         SireneWorkflow(self.config["sirene"]).run()
@@ -154,27 +157,6 @@ class WorkflowManager:
                 )
 
             return topic_files_in_scope, topic_agg.aggregated_dataset
-
-        if topic_config["source"] == "single":
-            # Process the single datafile: download & normalize
-            topic_datafiles = DatafileLoader(communities_selector, topic_config)
-
-            if self.config["workflow"]["save_to_db"]:
-                self.connector.upsert_df_to_sql(
-                    topic_datafiles.loaded_data, "raw_" + topic, ["acheteur.id", "codeCPV"]
-                )
-                self.connector.upsert_df_to_sql(
-                    topic_datafiles.normalized_data,
-                    "normalized_" + topic,
-                    ["acheteur.id", "codeCPV"],
-                )
-
-        if self.config["workflow"]["save_to_db"]:
-            self.connector.close_connection()
-
-        self.logger.info(f"Topic {topic} processed.")
-
-        return topic_files_in_scope, topic_datafiles.normalized_data
 
     def save_output_to_csv(
         self,
