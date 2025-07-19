@@ -9,6 +9,11 @@ on:
 jobs:
   visual-regression:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -58,3 +63,37 @@ jobs:
           name: backstop-test-results
           path: front/backstop_data/bitmaps_test/
           retention-days: 30
+
+      - name: Deploy BackstopJS Report to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: always() && github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: front/backstop_data/html_report
+          destination_dir: backstop-reports/${{ github.run_number }}
+
+      - name: Comment PR with report link
+        uses: actions/github-script@v7
+        if: always() && github.event_name == 'pull_request'
+        with:
+          script: |
+            const reportUrl = `https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/backstop-reports/${{ github.run_number }}/`;
+            const comment = `## 📸 BackstopJS Visual Regression Report
+
+            The visual regression tests have completed. You can view the detailed report here:
+
+            🔗 **[View BackstopJS Report](${reportUrl})**
+
+            This report includes:
+            - Visual comparisons between reference and test images
+            - Detailed diff highlighting for any changes detected
+            - Interactive browser for reviewing all scenarios
+
+            The report will be available for 30 days.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
