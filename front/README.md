@@ -175,3 +175,11 @@ front/
 2. Run visual regression tests before submitting PRs
 3. Ensure E2E tests pass
 4. Follow the established code formatting standards
+
+## Languages & tools
+
+- [Next.js](https://nextjs.org) is used app rendering and links.
+- [React](http://facebook.github.io/react) is used for interactive UI.
+- [Tailwind CSS](https://tailwindcss.com/) is used for styling
+- [Prettier](https://prettier.io/) is used for formatting
+- [shadcn](https://ui.shadcn.com/) is used for ui components
