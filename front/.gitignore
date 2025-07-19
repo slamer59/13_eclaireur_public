@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# storybook
+storybook-static/
+
+# lost pixel
+lost-pixel-tests/current/
+lost-pixel-tests/difference/
+# Keep baseline images in git for comparison
+# lost-pixel-tests/baseline/
+
+# playwright
+test-results/
+playwright-report/
+/playwright/.cache/
