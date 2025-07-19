@@ -62,42 +62,42 @@ Stories are located alongside components with the `.stories.tsx` extension. Exam
 - `components/SearchBar/SearchBar.stories.tsx`
 - `app/components/HomePageHeader.stories.tsx`
 
-### Visual Regression Testing with Lost Pixel
+### Visual Regression Testing with BackstopJS
 
-Lost Pixel is configured for visual regression testing of Storybook components.
+BackstopJS is configured for visual regression testing of Storybook components using Playwright engine.
 
 #### Running Visual Tests
 ```bash
 # Build Storybook first
 yarn build-storybook
 
-# Run visual regression tests (OSS mode)
-yarn lost-pixel
+# Start Storybook server
+yarn storybook
+
+# Generate initial reference images (first time only)
+yarn backstop:reference
+
+# Run visual regression tests
+yarn backstop:test
 ```
 
 #### Updating Baselines
 When you intentionally change component visuals:
 ```bash
-yarn lost-pixel:update
+yarn backstop:approve
 ```
 
-#### Environment Variables for CI/CD
-For production CI/CD pipelines, set these environment variables:
+#### Viewing Test Reports
 ```bash
-LOST_PIXEL_API_KEY=your-api-key
-CI_BUILD_ID=unique-build-id
-CI_BUILD_NUMBER=build-number
-REPOSITORY=owner/repo-name
-COMMIT_REF_NAME=branch-name
-COMMIT_HASH=commit-hash
+# Open the latest test report in browser
+yarn backstop:report
 ```
-
-For local development, these are automatically set to default values.
 
 #### Visual Test Results
-- Baseline images: `./lost-pixel-tests/baseline/`
-- Current screenshots: `./lost-pixel-tests/current/`
-- Difference images: `./lost-pixel-tests/difference/`
+- Reference images: `./backstop_data/bitmaps_reference/`
+- Test screenshots: `./backstop_data/bitmaps_test/`
+- HTML reports: `./backstop_data/html_report/`
+- CI reports: `./backstop_data/ci_report/`
 
 ### End-to-End Testing with Playwright
 
@@ -131,8 +131,10 @@ E2E tests are located in the `tests/` directory:
 - `yarn run test:headed` - Run Playwright tests in headed mode
 - `yarn run storybook` - Start Storybook development server
 - `yarn run build-storybook` - Build Storybook for production
-- `yarn run lost-pixel` - Run visual regression tests
-- `yarn run lost-pixel:update` - Update visual regression baselines
+- `yarn run backstop:test` - Run visual regression tests
+- `yarn run backstop:approve` - Update visual regression baselines
+- `yarn run backstop:reference` - Generate initial reference images
+- `yarn run backstop:report` - Open test results in browser
 
 ## Languages & Tools
 
@@ -142,7 +144,7 @@ E2E tests are located in the `tests/` directory:
 - [Prettier](https://prettier.io/) - Code formatting
 - [shadcn/ui](https://ui.shadcn.com/) - UI component library
 - [Storybook](https://storybook.js.org/) - Component development and documentation
-- [Lost Pixel](https://lost-pixel.com/) - Visual regression testing
+- [BackstopJS](https://github.com/garris/BackstopJS) - Visual regression testing
 - [Playwright](https://playwright.dev/) - End-to-end testing
 - [Bun](https://bun.sh/) - Package manager and runtime
 
@@ -158,7 +160,7 @@ front/
 │   ├── Map/            # Map components
 │   └── ...
 ├── tests/              # Playwright E2E tests
-├── lost-pixel-tests/   # Visual regression test results
+├── backstop_data/      # BackstopJS visual regression test data
 ├── public/             # Static assets
 └── utils/              # Utility functions
 ```
@@ -166,7 +168,7 @@ front/
 ## Testing Strategy
 
 1. **Unit/Component Testing**: Storybook stories serve as component documentation and manual testing
-2. **Visual Regression Testing**: Lost Pixel automatically detects visual changes in components
+2. **Visual Regression Testing**: BackstopJS automatically detects visual changes in components
 3. **End-to-End Testing**: Playwright tests cover user workflows and integration scenarios
 
 ## Contributing
