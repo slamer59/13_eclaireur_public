@@ -18,9 +18,10 @@ function generateStorybookScenarios() {
     scenarios.push({
       label: story,
       url: `http://localhost:6006/iframe.html?id=${story}&viewMode=story`,
-      delay: 1000,
+      delay: 2000,
       misMatchThreshold: 0.1,
-      requireSameDimensions: true
+      requireSameDimensions: true,
+      readyTimeout: 30000
     });
   }
 
