@@ -93,6 +93,12 @@ yarn backstop:approve
 yarn backstop:report
 ```
 
+#### GitHub Integration
+When running in CI/CD:
+- **Main branch**: Reports are automatically deployed to GitHub Pages at `https://[username].github.io/[repo-name]/backstop-reports/[run-number]/`
+- **Pull Requests**: A comment is automatically added with a direct link to the visual regression report
+- **Artifacts**: Reports and test results are uploaded as GitHub Actions artifacts for 30 days
+
 #### Visual Test Results
 - Reference images: `./backstop_data/bitmaps_reference/`
 - Test screenshots: `./backstop_data/bitmaps_test/`
