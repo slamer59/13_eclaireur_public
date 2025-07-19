@@ -14,8 +14,10 @@
     "test:headed": "playwright test --headed",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "lost-pixel": "lost-pixel",
-    "lost-pixel:update": "lost-pixel update"
+    "backstop:test": "backstop test --config=backstop.config.js",
+    "backstop:approve": "backstop approve --config=backstop.config.js",
+    "backstop:reference": "backstop reference --config=backstop.config.js",
+    "backstop:report": "backstop openReport --config=backstop.config.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.0",
@@ -61,7 +63,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@playwright/test": "^1.54.1",
+    "@playwright/test": "1.47.2",
     "@storybook/addon-essentials": "^9.0.0-alpha.12",
     "@storybook/addon-interactions": "^9.0.0-alpha.10",
     "@storybook/addon-links": "^9.0.17",
@@ -76,9 +78,9 @@
     "@types/pg-copy-streams": "^1.2.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "backstopjs": "^6.3.25",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
-    "lost-pixel": "^3.22.0",
     "postcss": "^8",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
