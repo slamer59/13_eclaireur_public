@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 import {
@@ -8,6 +9,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,7 +21,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Wrench } from 'lucide-react';
+import { Megaphone, Menu, Search } from 'lucide-react';
 
 const visualiserMenus: { title: string; href: string; description: string }[] = [
   {
@@ -92,55 +95,91 @@ const aProposMenus: { title: string; href: string; description: string }[] = [
 
 export default function Navbar() {
   return (
-    <div className='fixed z-50 flex h-[100px] w-full flex-wrap justify-between bg-white px-10 shadow'>
-      <Link href='/'>
-        <h1 className='mt-2 w-[100px] rounded bg-black px-2 py-1 font-bold uppercase text-white'>
-          Éclaireur Public
-        </h1>
-      </Link>
-      <NavigationMenu className='flex h-16'>
-        {/* Desktop */}
-        <NavigationMenuList className='max-md:hidden'>
-          <NavigationMenuGroup title='Visualiser' menus={visualiserMenus} />
-          <NavigationMenuGroup title='Comprendre' menus={comprendreMenus} />
-          <NavigationMenuItem>
-            <Link href='/advanced-search' legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Télécharger
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-          <NavigationMenuGroup title='À propos' menus={aProposMenus} />
-        </NavigationMenuList>
+    <div className='fixed z-50 w-full bg-white shadow-sm border-b'>
+      <div className='flex h-16 items-center justify-between px-6 lg:px-8'>
+        {/* Logo */}
+        <Link href='/' className='flex items-center space-x-3'>
+          <div className='flex h-12 w-12 items-center justify-center rounded-full bg-secondary'>
+            <Image
+              src='/logo-e.svg'
+              alt='Éclaireur Public Logo'
+              width={24}
+              height={24}
+              className='text-secondary-foreground'
+            />
+          </div>
+          <div className='flex flex-col leading-tight'>
+            <span className='text-base font-bold text-gray-900 uppercase'>Éclaireur</span>
+            <span className='text-base font-bold text-gray-900'>PUBLIC</span>
+          </div>
+        </Link>
 
-        {/* Mobile */}
-        <div className='md:hidden'>
-          <Sheet>
-            <SheetTrigger>
-              <Menu />
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Éclaireur Public</SheetTitle>
-              </SheetHeader>
-              <Accordion type='single' collapsible className='w-full'>
-                <AccordionMenu title='Visualiser' menus={visualiserMenus} />
-                <AccordionMenu title='Comprendre' menus={comprendreMenus} />
-                <Link href='/'>
-                  <p className='border-b py-4 text-left text-lg font-bold hover:underline'>
-                    Télécharger
-                  </p>
-                </Link>
-                <AccordionMenu title='À propos' menus={aProposMenus} />
-              </Accordion>
-            </SheetContent>
-          </Sheet>
+        {/* Desktop Navigation */}
+        <NavigationMenu className='hidden md:flex'>
+          <NavigationMenuList>
+            <NavigationMenuGroup title='Visualiser' menus={visualiserMenus} />
+            <NavigationMenuGroup title='Comprendre' menus={comprendreMenus} />
+            <NavigationMenuItem>
+              <Link href='/advanced-search' legacyBehavior passHref>
+                <NavigationMenuLink className={`${navigationMenuTriggerStyle()} text-primary hover:text-primary/80`}>
+                  Télécharger
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuGroup title='À propos' menus={aProposMenus} />
+          </NavigationMenuList>
+        </NavigationMenu>
+
+        {/* Search and Settings */}
+        <div className='flex items-center space-x-4'>
+          <div className='relative hidden md:block'>
+            <Search className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400' />
+            <Input
+              type='search'
+              placeholder='Rechercher...'
+              className='w-64 pl-10 pr-4 border-gray-300 rounded-none rounded-tl-lg rounded-br-lg'
+            />
+          </div>
+          <Button size='sm' className='bg-primary hover:bg-primary/90 rounded-none rounded-tl-lg rounded-br-lg'>
+            <Megaphone className='h-4 w-4' />
+          </Button>
+
+          {/* Mobile Menu */}
+          <div className='md:hidden'>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant='ghost' size='sm'>
+                  <Menu className='h-5 w-5' />
+                </Button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Éclaireur Public</SheetTitle>
+                </SheetHeader>
+                <div className='mt-6'>
+                  <div className='relative mb-6'>
+                    <Search className='absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400' />
+                    <Input
+                      type='search'
+                      placeholder='Rechercher...'
+                      className='pl-10 pr-4'
+                    />
+                  </div>
+                  <Accordion type='single' collapsible className='w-full'>
+                    <AccordionMenu title='Visualiser' menus={visualiserMenus} />
+                    <AccordionMenu title='Comprendre' menus={comprendreMenus} />
+                    <Link href='/advanced-search'>
+                      <p className='border-b py-4 text-left text-lg font-bold hover:underline'>
+                        Télécharger
+                      </p>
+                    </Link>
+                    <AccordionMenu title='À propos' menus={aProposMenus} />
+                  </Accordion>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-      </NavigationMenu>
-      <div className='absolute bottom-0 left-0 w-full bg-card-secondary-foreground-1 py-1 pl-1 text-center text-sm'>
-        <Wrench className='inline scale-x-[-1]' size='16' />
-        <strong>Version bêta - ce site est en cours de déploiement.</strong> Certaines
-        fonctionnalités peuvent ne pas fonctionner correctement. Merci pour votre compréhension.
       </div>
     </div>
   );
@@ -176,7 +215,7 @@ type NavigationMenuGroupProps = {
 function NavigationMenuGroup({ title, menus }: NavigationMenuGroupProps) {
   return (
     <NavigationMenuItem>
-      <NavigationMenuTrigger>{title}</NavigationMenuTrigger>
+      <NavigationMenuTrigger className='text-primary hover:text-primary/80'>{title}</NavigationMenuTrigger>
       <NavigationMenuContent>
         <ul className='w-[500px] gap-3 p-4'>
           {menus.map((menu) => (
