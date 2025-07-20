@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react';
+import { INITIAL_VIEWPORTS } from 'storybook/viewport';
 import '../app/globals.css';
 
 const preview: Preview = {
@@ -11,6 +12,9 @@ const preview: Preview = {
         },
         nextjs: {
             appDirectory: true,
+        },
+        viewport: {
+            options: INITIAL_VIEWPORTS,
         },
     },
     tags: ['autodocs'],

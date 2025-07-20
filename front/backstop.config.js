@@ -11,6 +11,10 @@ function generateStorybookScenarios() {
     'ui-button--ghost',
     'ui-button--link',
     'components-searchbar--default',
+    'components-searchbar--with-container',
+    'components-navbar--default',
+    'components-navbar--with-background',
+    'components-navbar--mobile',
     'pages-homepageheader--default'
   ];
 
