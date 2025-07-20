@@ -52,19 +52,22 @@ export const WithBackground: Story = {
 export const Mobile: Story = {
     args: {},
     parameters: {
+        layout: 'fullscreen',
+    },
+    globals: {
         viewport: {
-            defaultViewport: 'mobile1',
+            value: 'iphone5',
         },
     },
     decorators: [
         (Story) => (
-            <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+            <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', width: '100%' }}>
                 <Story />
                 <div style={{ padding: '80px 20px 20px' }}>
                     <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
                         Mobile View
                     </h1>
-                    <p style={{ color: '#64748b', lineHeight: '1.6' }}>
+                    <p style={{ color: '#64748b', lineHeight: '1.6', fontSize: '0.875rem' }}>
                         On mobile, the navigation menu is collapsed into a hamburger menu, and the search bar
                         is moved to the mobile menu.
                     </p>
