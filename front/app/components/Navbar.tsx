@@ -1,3 +1,6 @@
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import React from 'react';
 
 import Image from 'next/image';
@@ -9,16 +12,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
+  NavigationMenuTrigger
 } from '@/components/ui/navigation-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Megaphone, Menu, Search } from 'lucide-react';
@@ -109,8 +109,8 @@ export default function Navbar() {
             />
           </div>
           <div className='flex flex-col leading-tight'>
-            <span className='text-base font-bold text-gray-900 uppercase'>Éclaireur</span>
-            <span className='text-base font-bold text-gray-900'>PUBLIC</span>
+            <span className='text-base font-bold text-primary uppercase'>Éclaireur</span>
+            <span className='text-base font-bold text-primary'>PUBLIC</span>
           </div>
         </Link>
 
@@ -121,7 +121,8 @@ export default function Navbar() {
             <NavigationMenuGroup title='Comprendre' menus={comprendreMenus} />
             <NavigationMenuItem>
               <Link href='/advanced-search' legacyBehavior passHref>
-                <NavigationMenuLink className={`${navigationMenuTriggerStyle()} text-primary hover:text-primary/80`}>
+
+                <NavigationMenuLink className="text-primary hover:text-primary/80 text-base font-medium" >
                   Télécharger
                 </NavigationMenuLink>
               </Link>
@@ -169,7 +170,7 @@ export default function Navbar() {
                     <AccordionMenu title='Visualiser' menus={visualiserMenus} />
                     <AccordionMenu title='Comprendre' menus={comprendreMenus} />
                     <Link href='/advanced-search'>
-                      <p className='border-b py-4 text-left text-lg font-bold hover:underline'>
+                      <p className='border-b py-4 text-left text-lg text-primary font-bold hover:underline'>
                         Télécharger
                       </p>
                     </Link>
@@ -181,7 +182,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
@@ -195,7 +196,7 @@ const ListItem = React.forwardRef<React.ComponentRef<'a'>, React.ComponentPropsW
             className={`${className} block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground`}
             {...props}
           >
-            <div className='text-sm font-bold leading-none'>{title}</div>
+            <div className='text-base font-bold leading-none text-primary'>{title}</div>
             <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>{children}</p>
           </a>
         </NavigationMenuLink>
@@ -215,7 +216,9 @@ type NavigationMenuGroupProps = {
 function NavigationMenuGroup({ title, menus }: NavigationMenuGroupProps) {
   return (
     <NavigationMenuItem>
-      <NavigationMenuTrigger className='text-primary hover:text-primary/80'>{title}</NavigationMenuTrigger>
+      <NavigationMenuTrigger className='text-primary hover:text-primary/80 text-base font-medium flex items-center gap-1'>
+        {title}
+      </NavigationMenuTrigger>
       <NavigationMenuContent>
         <ul className='w-[500px] gap-3 p-4'>
           {menus.map((menu) => (
@@ -237,13 +240,13 @@ type AccordionMenuProps = {
 function AccordionMenu({ title, menus }: AccordionMenuProps) {
   return (
     <AccordionItem value={title}>
-      <AccordionTrigger className='font-bold'>{title}</AccordionTrigger>
+      <AccordionTrigger className='font-bold text-primary'>{title}</AccordionTrigger>
       <AccordionContent className='pl-3'>
         <ul className='space-y-3 divide-y divide-gray-200'>
           {menus.map((menu) => (
             <li key={menu.title}>
               <Link href={menu.href}>
-                <p className='font-semibold'>{menu.title}</p>
+                <p className='font-semibold text-primary-400'>{menu.title}</p>
                 <p className='text-sm font-light text-gray-500'>{menu.description}</p>
               </Link>
             </li>
