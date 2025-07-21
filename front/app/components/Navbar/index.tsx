@@ -9,10 +9,14 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
+import { Accordion } from '@radix-ui/react-accordion';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@radix-ui/react-dropdown-menu';
 import { Megaphone, Menu, Search } from 'lucide-react';
 
-import { Accordion } from '@radix-ui/react-accordion';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { AccordionMenu } from './AccordionMenu';
 import { NavigationMenuGroup } from './NavigationMenuGroup';
 
@@ -126,12 +130,13 @@ export default function Navbar() {
         {/* Search and Settings */}
         <div className='flex items-center space-x-4'>
           <div className='relative hidden md:block'>
+
             <Input
               type='search'
               placeholder='Rechercher...'
-              className='w-64 rounded-none rounded-br-lg rounded-tl-lg border-gray-300 pr-10 pl-4 bg-primary-500'
+              className='w-64 rounded-none rounded-br-xl rounded-tl-xl border pl-4 pr-10 text-primary focus:m-0 focus:border-primary focus:ring-primary focus-visible:ring-offset-0'
             />
-            <Search className='absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-primary border-primary text-primary-400 focus:border-primary' />
+            <Search className='absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 border-primary text-primary focus:border-primary' />
           </div>
           <Button
             size='sm'
@@ -150,51 +155,52 @@ export default function Navbar() {
 }
 
 function MobileNavigationMenu() {
-  return <div className='md:hidden' >
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant='ghost' size='sm' className='rounded-full p-2 '>
-          <Menu className='h-5 w-5 text-primary hover:bg-primary/10' />
-        </Button>
-      </DropdownMenuTrigger>
+  return (
+    <div className='md:hidden'>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant='ghost' size='sm' className='rounded-full p-2'>
+            <Menu className='h-5 w-5 text-primary hover:bg-primary/10' />
+          </Button>
+        </DropdownMenuTrigger>
 
-      <DropdownMenuContent
-        sideOffset={20}
-        className='z-50 top-16 w-screen rounded-none border-none bg-white px-4 py-6 shadow-md rounded-b-3xl overflow-auto'
-        align='start'
-        side='top'
-      >
-        {/* Search Bar */}
-        <div className='relative mb-4'>
-          <Input
-            type='search'
-            placeholder='Rechercher...'
-            className='w-full h-12 border pr-10 text-primary pl-4 rounded-none rounded-tl-xl rounded-br-xl focus:m-0 focus-visible:ring-offset-0 focus-visible:ring-primary ring-primary-400'
-          />
-          <Search className='absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400' />
-        </div>
-
-        {/* Interpeller Button */}
-        <Button className='w-full mb-4 h-12 bg-primary text-white rounded-none rounded-tl-xl rounded-br-xl font-semibold text-xl'>
-          <Megaphone className='mr-2 h-4 w-4' />
-          Interpeller
-        </Button>
-
-        {/* Accordion Menu */}
-        <Accordion type='single' collapsible className='w-full'>
-          <AccordionMenu title='Visualiser' menus={visualiserMenus} />
-          <AccordionMenu title='Comprendre' menus={comprendreMenus} />
-          <div className='border-b border-primary-200'>
-            <Link href='/advanced-search'>
-              <div className='py-4 text-left text-lg font-semibold text-primary hover:text-primary/80 transition-colors'>
-                Télécharger
-              </div>
-            </Link>
+        <DropdownMenuContent
+          sideOffset={20}
+          className='top-16 z-50 w-screen overflow-auto rounded-none rounded-b-3xl border-none bg-white px-4 py-6 shadow-md'
+          align='start'
+          side='top'
+        >
+          {/* Search Bar */}
+          <div className='relative mb-4'>
+            <Input
+              type='search'
+              placeholder='Rechercher...'
+              className='h-12 w-full rounded-none rounded-br-xl rounded-tl-xl border pl-4 pr-10 text-primary ring-primary-400 focus:m-0 focus-visible:ring-primary focus-visible:ring-offset-0'
+            />
+            <Search className='absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-primary' />
           </div>
-          <AccordionMenu title='À propos' menus={aProposMenus} last={true} />
-        </Accordion>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  </div>
-}
 
+          {/* Interpeller Button */}
+          <Button className='mb-4 h-12 w-full rounded-none rounded-br-xl rounded-tl-xl bg-primary text-xl font-semibold text-white'>
+            <Megaphone className='mr-2 h-4 w-4' />
+            Interpeller
+          </Button>
+
+          {/* Accordion Menu */}
+          <Accordion type='single' collapsible className='w-full'>
+            <AccordionMenu title='Visualiser' menus={visualiserMenus} />
+            <AccordionMenu title='Comprendre' menus={comprendreMenus} />
+            <div className='border-b border-primary-200'>
+              <Link href='/advanced-search'>
+                <div className='py-4 text-left text-lg font-semibold text-primary transition-colors hover:text-primary/80'>
+                  Télécharger
+                </div>
+              </Link>
+            </div>
+            <AccordionMenu title='À propos' menus={aProposMenus} last={true} />
+          </Accordion>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}

@@ -15,6 +15,7 @@ function generateStorybookScenarios() {
     'components-navbar--default',
     'components-navbar--with-background',
     'components-navbar--mobile',
+    'components-navbar--mobile-menu-open',
     'pages-homepageheader--default'
   ];
 
