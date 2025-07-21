@@ -27,7 +27,7 @@ jobs:
       GH_HOST: ${{ secrets.HOST }}
       GH_NODE_ENV: ${{ secrets.NODE_ENV }}
       GH_PORT: ${{ secrets.PORT }}
-      NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+      NEXT_PUBLIC_BASE_URL: http://localhost:3000
       NEXT_PUBLIC_MAPTILES_API_KEY: ${{ secrets.NEXT_PUBLIC_MAPTILES_API_KEY }}
       POSTGRESQL_ADDON_HOST: ${{ secrets.POSTGRESQL_ADDON_HOST }}
       POSTGRESQL_ADDON_DB: ${{ secrets.POSTGRESQL_ADDON_DB }}
