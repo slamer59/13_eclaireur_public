@@ -4,6 +4,7 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
+
 jobs:
   visual-regression:
     runs-on: ubuntu-latest
@@ -12,6 +13,7 @@ jobs:
       pages: write
       id-token: write
       pull-requests: write
+
     env:
       CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
       CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
@@ -45,18 +47,32 @@ jobs:
           cache: "yarn"
           cache-dependency-path: "front/yarn.lock"
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install dependencies
         run: |
           cd front
           yarn install --frozen-lockfile
 
-      - name: Build Storybook static
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: |
+          cd front
+          yarn playwright install --with-deps chromium
+
+      - name: Build Storybook
         id: build-storybook
         run: |
           cd front
-          yarn storybook:build # Should generate storybook-static
+          yarn storybook:build
 
-      - name: Serve built Storybook
+      - name: Serve Storybook
         id: storybook-server
         run: |
           cd front
@@ -98,14 +114,15 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const reportUrl = `https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/backstop-reports/${{ github.run_number }}/`;
-            const testStatus = "${{ steps.backstop-test.outcome }}" === "success" ? "✅ passed" : "⚠️ has visual differences";
-            const comment = `## 📸 BackstopJS Visual Regression Report
-            Visual tests ${testStatus}. You can view the detailed report here:
+            const reportUrl = `https://${context.repo.owner}.github.io/${context.repo.name}/backstop-reports/${context.runNumber}/`;
+            const hasDiffs = "${{ failure() }}";
+            const comment = `
+            ## 📸 Visual Regression Test Results
+            ${hasDiffs ? '⚠️ Visual differences detected' : '✅ All visual tests passed'}
+
             🔗 **[View BackstopJS Report](${reportUrl})**
 
-
-            ${testStatus === "⚠️ has visual differences" ? 
+            ${hasDiffs ? 
               "**Note:** This is not a failure - the report shows visual differences that need review." : ""}
 
 
@@ -122,7 +139,6 @@ jobs:
               repo: context.repo.repo,
               body: comment
             });
-
       - name: Notify if Storybook failed
         if: steps.storybook-server.outcome == 'failure'
         uses: actions/github-script@v7
