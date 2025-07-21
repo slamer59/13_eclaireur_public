@@ -114,25 +114,25 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const reportUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/backstop-reports/${context.runNumber}/`;
             const hasDiffs = "${{ steps.backstop-test.outcome == 'failure' }}";
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const comment = `
             ## 📸 Visual Regression Test Results
             ${hasDiffs === 'true' ? '⚠️ Visual differences detected' : '✅ All visual tests passed'}
 
-            🔗 **[View BackstopJS Report](${reportUrl})**
+            ### 📊 Test Artifacts
+            - 🔗 **[BackstopJS HTML Report](${runUrl}#artifacts)** - Interactive visual comparison report
+            - 🔗 **[Test Result Images](${runUrl}#artifacts)** - Generated test screenshots and diffs
 
             ${hasDiffs === 'true' ? 
               "**Note:** This is not a failure - the report shows visual differences that need review." : ""}
 
-
-            Report includes:
+            ### 📋 Report Contents
             - Visual comparisons between reference and test images
             - Detailed diff highlighting
             - Interactive browser for reviewing scenarios
 
-
-            Available for 30 days.`;
+            **Artifacts available for 30 days.** Click the links above and download the artifacts from the GitHub Actions run page.`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
