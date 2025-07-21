@@ -115,14 +115,14 @@ jobs:
         with:
           script: |
             const reportUrl = `https://${context.repo.owner}.github.io/${context.repo.name}/backstop-reports/${context.runNumber}/`;
-            const hasDiffs = "${{ failure() }}";
+            const hasDiffs = "${{ steps.backstop-test.outcome == 'failure' }}";
             const comment = `
             ## 📸 Visual Regression Test Results
-            ${hasDiffs ? '⚠️ Visual differences detected' : '✅ All visual tests passed'}
+            ${hasDiffs === 'true' ? '⚠️ Visual differences detected' : '✅ All visual tests passed'}
 
             🔗 **[View BackstopJS Report](${reportUrl})**
 
-            ${hasDiffs ? 
+            ${hasDiffs === 'true' ? 
               "**Note:** This is not a failure - the report shows visual differences that need review." : ""}
 
 
