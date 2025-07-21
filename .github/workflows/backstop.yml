@@ -85,20 +85,12 @@ jobs:
           cd front
           yarn backstop:test || (echo "::warning::Visual differences detected" && true)
 
-      - name: Upload BackstopJS report
+      - name: Upload BackstopJS complete report with assets
         if: steps.storybook-server.outcome == 'success' && steps.backstop-test.outcome != 'failed'
         uses: actions/upload-artifact@v4
         with:
-          name: backstop-report
-          path: front/backstop_data/html_report/
-          retention-days: 30
-
-      - name: Upload BackstopJS test results
-        if: steps.storybook-server.outcome == 'success' && steps.backstop-test.outcome != 'failed'
-        uses: actions/upload-artifact@v4
-        with:
-          name: backstop-test-results
-          path: front/backstop_data/bitmaps_test/
+          name: backstop-complete-report
+          path: front/backstop_data/
           retention-days: 30
 
       - name: Deploy BackstopJS Report to GitHub Pages
