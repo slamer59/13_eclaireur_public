@@ -25,7 +25,7 @@ jobs:
       GH_HOST: ${{ secrets.HOST }}
       GH_NODE_ENV: ${{ secrets.NODE_ENV }}
       GH_PORT: ${{ secrets.PORT }}
-      NEXT_PUBLIC_BASE_URL: ${{ vars.NEXT_PUBLIC_BASE_URL }}
+      NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
       NEXT_PUBLIC_MAPTILES_API_KEY: ${{ secrets.NEXT_PUBLIC_MAPTILES_API_KEY }}
       POSTGRESQL_ADDON_HOST: ${{ secrets.POSTGRESQL_ADDON_HOST }}
       POSTGRESQL_ADDON_DB: ${{ secrets.POSTGRESQL_ADDON_DB }}
@@ -33,6 +33,7 @@ jobs:
       POSTGRESQL_ADDON_PORT: ${{ secrets.POSTGRESQL_ADDON_PORT }}
       POSTGRESQL_ADDON_PASSWORD: ${{ secrets.POSTGRESQL_ADDON_PASSWORD }}
       POSTGRESQL_ADDON_URI: ${{ secrets.POSTGRESQL_ADDON_URI }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
