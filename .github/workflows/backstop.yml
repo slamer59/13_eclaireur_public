@@ -113,8 +113,7 @@ jobs:
             ${hasDiffs === 'true' ? '⚠️ Visual differences detected' : '✅ All visual tests passed'}
 
             ### 📊 Test Artifacts
-            - 🔗 **[BackstopJS HTML Report](${runUrl}#artifacts)** - Interactive visual comparison report
-            - 🔗 **[Test Result Images](${runUrl}#artifacts)** - Generated test screenshots and diffs
+            - 🔗 **[BackstopJS Complete Report](${runUrl}#artifacts)** - Download `backstop-complete-report` for the full interactive HTML report with all assets
 
             ${hasDiffs === 'true' ? 
               "**Note:** This is not a failure - the report shows visual differences that need review." : ""}
