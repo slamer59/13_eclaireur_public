@@ -54,7 +54,7 @@ jobs:
         id: build-storybook
         run: |
           cd front
-          yarn build-storybook
+          yarn storybook:build
 
       - name: Start Storybook server
         id: storybook-server
