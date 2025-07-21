@@ -114,7 +114,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const reportUrl = `https://${context.repo.owner}.github.io/${context.repo.name}/backstop-reports/${context.runNumber}/`;
+            const reportUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/backstop-reports/${context.runNumber}/`;
             const hasDiffs = "${{ steps.backstop-test.outcome == 'failure' }}";
             const comment = `
             ## 📸 Visual Regression Test Results
