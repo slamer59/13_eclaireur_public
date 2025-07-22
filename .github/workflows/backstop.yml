@@ -1,11 +1,10 @@
 name: BackstopJS Visual Regression Tests
 on:
-  workflow_dispatch:
-  push:
-    branches: [main, develop]
-  pull_request_target:
-    types: [opened, closed, synchronize, reopened]  
-    branches: [main, develop]
+    pull_request_target:
+      types: [opened, closed, synchronize, reopened]
+      branches: [ main ]
+      paths:
+      - 'front/**'
 
 jobs:
   visual-regression:
