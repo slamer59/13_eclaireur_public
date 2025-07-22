@@ -7,6 +7,12 @@ on:
     branches: [main, develop]
     paths:
     - 'front/**'
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to test (optional, for manual runs on PRs)'
+        required: false
+        type: string
 
 jobs:
   visual-regression:
