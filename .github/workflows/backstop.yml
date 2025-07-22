@@ -1,12 +1,13 @@
 name: BackstopJS Visual Regression Tests
 on:
-    push:
-      branches: [main, develop]
-      paths:
+  push:
+    branches: [main, develop]
+    paths:
+    - 'front/**'
+  pull_request_target:
+    branches: [main, develop]
+    paths:
       - 'front/**'
-    pull_request_target:
-      types: [opened, closed, synchronize, reopened]
-      branches: [ main ]
 
 jobs:
   visual-regression:
@@ -40,8 +41,10 @@ jobs:
       POSTGRESQL_ADDON_URI: ${{ secrets.POSTGRESQL_ADDON_URI }}
 
     steps:
-      - name: Checkout
+      - name: Checkout PR code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
