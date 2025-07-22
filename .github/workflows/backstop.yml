@@ -2,8 +2,17 @@ name: BackstopJS Visual Regression Tests
 on:
   push:
     branches: [main, develop]
-  pull_request:
+  pull_request_target:
+    types: [opened, closed, synchronize, reopened]
     branches: [main, develop]
+    paths:
+    - 'front/**'
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to test (optional, for manual runs on PRs)'
+        required: false
+        type: string
 
 jobs:
   visual-regression:
@@ -15,6 +24,7 @@ jobs:
       pull-requests: write
 
     env:
+      # Only set these if secrets exist (for forks with full deployment setup)
       CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
       CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
       ORGA_ID: ${{ secrets.ORGA_ID }}
@@ -37,8 +47,13 @@ jobs:
       POSTGRESQL_ADDON_URI: ${{ secrets.POSTGRESQL_ADDON_URI }}
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event_name == 'workflow_dispatch' && github.repository || github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.ref || github.event.pull_request.head.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -89,7 +104,7 @@ jobs:
           retention-days: 30
 
       - name: Deploy BackstopJS Report to GitHub Pages
-        if: steps.storybook-server.outcome == 'success' && steps.backstop-test.outcome != 'failed' && github.ref == 'refs/heads/main'
+        if: steps.storybook-server.outcome == 'success' && steps.backstop-test.outcome != 'failed' && github.ref == 'refs/heads/main' && secrets.GITHUB_TOKEN != ''
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -97,7 +112,7 @@ jobs:
           destination_dir: backstop-reports/${{ github.run_number }}
 
       - name: Comment PR with report link
-        if: steps.storybook-server.outcome == 'success' && steps.backstop-test.outcome != 'failed' && github.event_name == 'pull_request'
+        if: steps.storybook-server.outcome == 'success' && steps.backstop-test.outcome != 'failed' && github.event_name == 'pull_request_target'
         uses: actions/github-script@v7
         with:
           script: |
