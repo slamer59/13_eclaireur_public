@@ -1,9 +1,9 @@
 name: BackstopJS Visual Regression Tests
-
 on:
-    pull_request_target:
-      types: [opened, closed, synchronize, reopened]
-      branches: [ main ]
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
 
 jobs:
   visual-regression:
@@ -37,10 +37,8 @@ jobs:
       POSTGRESQL_ADDON_URI: ${{ secrets.POSTGRESQL_ADDON_URI }}
 
     steps:
-      - name: Checkout PR code or current branch
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.sha || github.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -61,32 +59,27 @@ jobs:
         run: |
           cd front
           yarn install --frozen-lockfile
-
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: |
           cd front
           yarn playwright install --with-deps chromium
-
       - name: Build Storybook
         id: build-storybook
         run: |
           cd front
           yarn storybook:build
-
       - name: Serve Storybook
         id: storybook-server
         run: |
           cd front
           npx http-server ./storybook-static -p 6006 > /dev/null 2>&1 &
           npx wait-on http://localhost:6006/iframe.html
-
       - name: Run BackstopJS tests
         id: backstop-test
         run: |
           cd front
           yarn backstop:test || (echo "::warning::Visual differences detected" && true)
-
       - name: Upload BackstopJS complete report with assets
         if: steps.storybook-server.outcome == 'success' && steps.backstop-test.outcome != 'failed'
         uses: actions/upload-artifact@v4
@@ -104,7 +97,7 @@ jobs:
           destination_dir: backstop-reports/${{ github.run_number }}
 
       - name: Comment PR with report link
-        if: steps.storybook-server.outcome == 'success' && steps.backstop-test.outcome != 'failed' && github.event_name == 'pull_request_target'
+        if: steps.storybook-server.outcome == 'success' && steps.backstop-test.outcome != 'failed' && github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
@@ -128,7 +121,6 @@ jobs:
               repo: context.repo.repo,
               body: comment
             });
-
       - name: Notify if Storybook failed
         if: steps.storybook-server.outcome == 'failure'
         uses: actions/github-script@v7
