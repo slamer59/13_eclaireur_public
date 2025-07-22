@@ -6,11 +6,11 @@ on:
     types: [opened, closed, synchronize, reopened]
     branches: [main, develop]
     paths:
-    - 'front/**'
+      - "front/**"
   workflow_dispatch:
     inputs:
       pr_number:
-        description: 'PR number to test (optional, for manual runs on PRs)'
+        description: "PR number to test (optional, for manual runs on PRs)"
         required: false
         type: string
 
@@ -139,3 +139,64 @@ jobs:
               repo: context.repo.repo,
               body: "❌ Visual regression tests failed because the Storybook server could not start. Check the workflow logs for details."
             });
+
+  approve-backstop:
+    # Trigger only on PR closed event
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && (github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'develop')
+    runs-on: ubuntu-latest
+    env:
+      # Only set these if secrets exist (for forks with full deployment setup)
+      CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
+      CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
+      ORGA_ID: ${{ secrets.ORGA_ID }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_APP_FOLDER: ${{ secrets.APP_FOLDER }}
+      GH_CC_CACHE_DEPENDENCIES: ${{ secrets.CC_CACHE_DEPENDENCIES }}
+      GH_CC_CGI_IMPLEMENTATION: ${{ secrets.CC_CGI_IMPLEMENTATION }}
+      GH_CC_NODE_DEV_DEPENDENCIES: ${{ secrets.CC_NODE_DEV_DEPENDENCIES }}
+      GH_CC_WEBROOT: ${{ secrets.CC_WEBROOT }}
+      GH_HOST: ${{ secrets.HOST }}
+      GH_NODE_ENV: ${{ secrets.NODE_ENV }}
+      GH_PORT: ${{ secrets.PORT }}
+      NEXT_PUBLIC_BASE_URL: http://localhost:3000
+      NEXT_PUBLIC_MAPTILES_API_KEY: ${{ secrets.NEXT_PUBLIC_MAPTILES_API_KEY }}
+      POSTGRESQL_ADDON_HOST: ${{ secrets.POSTGRESQL_ADDON_HOST }}
+      POSTGRESQL_ADDON_DB: ${{ secrets.POSTGRESQL_ADDON_DB }}
+      POSTGRESQL_ADDON_USER: ${{ secrets.POSTGRESQL_ADDON_USER }}
+      POSTGRESQL_ADDON_PORT: ${{ secrets.POSTGRESQL_ADDON_PORT }}
+      POSTGRESQL_ADDON_PASSWORD: ${{ secrets.POSTGRESQL_ADDON_PASSWORD }}
+      POSTGRESQL_ADDON_URI: ${{ secrets.POSTGRESQL_ADDON_URI }}
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "yarn"
+          cache-dependency-path: "front/yarn.lock"
+
+      - name: Install dependencies
+        run: |
+          cd front
+          yarn install --frozen-lockfile
+
+      - name: Approve BackstopJS tests
+        run: |
+          cd front
+          yarn backstop:approve
+
+      - name: Commit and push approved references
+        run: |
+          cd front
+          git config user.name "anticor"
+          git config user.email "anticor@users.noreply.github.com"
+          git add backstop_data/bitmaps_reference
+          git commit -m "chore: approve BackstopJS references post-merge [skip ci]" || echo "No changes to commit"
+          git push
